@@ -9,7 +9,7 @@ import { ValidationError, assertValid, combinedText, readJson, readText, require
 // Maintainer-owned contracts. Grading runs these directly instead of learner-editable npm scripts,
 // and refuses to run if they changed. Update hashes with: node .github/scripts/grade-step.mjs print-contract-hashes
 export const protectedContracts = {
-  'octofit-tracker/backend/tests/data.contract.test.ts': '36c3d304979a185b3490deac5ee16d658badc03cc4927440e7bad08dace9b28c',
+  'octofit-tracker/backend/tests/data.contract.test.ts': 'df010c6e88fc725fb43d2515305100b3eb1d992114a7ef127ef91f1b0cd81b51',
   'octofit-tracker/backend/tests/api.contract.test.ts': '2457654fb2cb30ed54b61b1b775fa05aad4f4e2208850d535d3691c8186ad489',
   'octofit-tracker/backend/tsconfig.json': '52ae7740b2c43a72f7306679d38fe15bc376384ea08eef7d913bfc633e6298b5',
   'octofit-tracker/frontend/tests/app.contract.test.tsx': 'd28ab0e9d63f4f7a40720ded2eef1a0c3184d420175441b5f3fc27b36e2aff4d',
