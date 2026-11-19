@@ -36,10 +36,10 @@ flowchart LR
 
 | Capacidade | Método e caminho | Comportamento esperado |
 | --- | --- | --- |
-| Registro de atividades | `GET /api/activities`, `POST /api/activities` | Lista e cria atividades válidas. POST recebe `userId`, `teamId`, `type` e `minutes`; `userId` e `teamId` devem ser IDs bem-formados de uma pessoa e uma equipe existentes, caso contrário a API retorna um 4xx intencional (nunca um 500 causado por erro de conversão). Uma atividade criada armazena `user`, `team`, `type` e `minutes` enviados, além de `points` e `occurredAt` calculados. |
-| Equipes | `GET /api/teams`, `POST /api/teams` | Lista e cria equipes com integrantes. As equipes criadas e listadas mantêm os valores enviados em `name` e `mascot`. Rejeita uma equipe sem nome com `400`. |
-| Placar | `GET /api/leaderboard` | Retorna as equipes ordenadas pela soma dos pontos de suas atividades, da maior para a menor. Cada item contém `teamName`, `totalPoints` e uma `rank` iniciada em 1. |
-| Sugestões de treino | `GET /api/workouts/suggestions/:userEmail` | Recomenda treinos com base nos padrões de atividade recentes da pessoa correspondente ao e-mail seed. O foco da primeira sugestão (`focus`) corresponde à meta ou à atividade recente dessa pessoa, e o campo `reason` explica o motivo. Um e-mail sem pessoa correspondente retorna um 4xx intencional (por exemplo, `404`). |
+| Registro de atividades | `GET /api/activities`, `POST /api/activities` | Lista atividades em `activities` e retorna a atividade criada em `activity` com status 201. O POST recebe `userId`, `teamId`, `type` e `minutes`; campos inválidos retornam 400, e referências bem-formadas a uma pessoa ou equipe inexistente retornam 404. A atividade armazena `user`, `team`, `type` e `minutes`, com um ponto por minuto e `occurredAt` definido no momento do registro. |
+| Equipes | `GET /api/teams`, `POST /api/teams` | Lista equipes e seus IDs de integrantes. Cria equipes com `201`, preservando `name`, `mascot` e `members` (vazio se omitido). Dados inválidos retornam `400`; integrantes inexistentes retornam `404`. |
+| Placar | `GET /api/leaderboard` | Ordena as equipes com atividades pela soma dos pontos, da maior para a menor. Em caso de empate, ordena pelo nome e depois pelo ID. Cada item contém `teamName`, `totalPoints` e `rank`, com posições sequenciais a partir de 1. |
+| Sugestões de treino | `GET /api/workouts/suggestions/:userEmail` | Prioriza treinos compatíveis com a atividade mais recente cujo tipo tem um foco conhecido. Também inclui treinos compatíveis com a meta da pessoa. Cada sugestão explica o motivo em `reason`. Um e-mail sem pessoa correspondente retorna `404`. |
 
 ## Decisões de implementação
 
@@ -88,4 +88,6 @@ Total informado: **23 testes falhando e 1 passando**. Cada teste interrompe na p
 | Compilação do backend | `npm run build --prefix octofit-tracker/backend` | Compilação TypeScript concluída sem erros. Resultado ainda não verificado. |
 | Compilação do frontend | `npm run build --prefix octofit-tracker/frontend` | Compilação e geração de produção concluídas sem erros. Resultado ainda não verificado. |
 
-Durante a implementação, registrar novos resultados e o significado de eventuais falhas nesta seção, sem substituir testes por respostas fixas nem enfraquecer os contratos para obter aprovação.
+### Resultado da implementação da camada de lógica
+
+Os quatro testes de contrato da API, a validação da etapa 3 e a compilação TypeScript do backend passaram. Os testes de contrato não foram alterados.
