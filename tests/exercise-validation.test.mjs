@@ -24,7 +24,6 @@ function completedFixture() {
     write(root, `octofit-tracker/backend/src/models/${model}.ts`, `import { Schema, model } from 'mongoose';\nconst schema = new Schema({ name: { type: String, required: true } });\nexport const ${model} = model('${model}', schema);\n`);
   }
   write(root, 'octofit-tracker/backend/src/scripts/seed.ts', `import { Activity, Team, User, Workout } from '../models/index.js';\nexport async function seed() {\n  await User.updateOne({}, {}, { upsert: true });\n  await Team.updateOne({}, {}, { upsert: true });\n  await Activity.updateOne({}, {}, { upsert: true });\n  await Workout.updateOne({}, {}, { upsert: true });\n}\n`);
-  write(root, 'octofit-tracker/backend/tests/data.contract.test.ts', `it('seeds representative data idempotently and preserves a sentinel', async () => { await seed(); await seed(); expect(sentinel).toBeDefined(); });`);
   write(root, 'octofit-tracker/backend/src/services/octofitService.ts', `export async function createActivity() { throw new HttpError(BAD_REQUEST); }\nexport async function getLeaderboard() { return []; }\nexport async function suggestWorkouts() { return []; }\nconst fields = ['points', 'minutes'];\n`);
   for (const [component, route] of [['Activities', 'activities'], ['Teams', 'teams'], ['Leaderboard', 'leaderboard'], ['Workouts', 'workouts/suggestions/mona%40example.com']]) {
     write(root, `octofit-tracker/frontend/src/components/${component}.tsx`, `import { getJson } from '../api/client.js';\nexport async function load${component}() { return getJson<unknown>('/api/${route}'); }\n`);
@@ -69,6 +68,7 @@ test('starter scaffold does not pass learner grading before implementation', () 
 
 test('completed learner fixture satisfies step 1 through final composition checks', () => {
   const root = completedFixture();
+  assert.doesNotThrow(() => verifyContracts(root));
   for (const name of ['step1-architecture', 'step2-data', 'step3-api', 'step4-frontend']) {
     assert.doesNotThrow(() => checks[name](root), `${name} should accept a completed fixture`);
   }
