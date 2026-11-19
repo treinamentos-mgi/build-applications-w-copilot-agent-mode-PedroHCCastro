@@ -75,6 +75,13 @@ test('completed learner fixture satisfies step 1 through final composition check
   assert.doesNotThrow(() => checkFinalComposition(root));
 });
 
+test('data grader accepts the canonical protected data contract', () => {
+  const root = completedFixture();
+  const contract = 'octofit-tracker/backend/tests/data.contract.test.ts';
+  fs.copyFileSync(path.join(repositoryRoot, contract), path.join(root, contract));
+  assert.doesNotThrow(() => checks['step2-data'](root));
+});
+
 test('missing canonical step file is rejected', () => {
   const root = copyMetadata();
   fs.renameSync(path.join(root, '.github/steps/2-step.md'), path.join(root, '.github/steps/2-data.md'));
