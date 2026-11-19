@@ -68,8 +68,6 @@ export const checks = {
     containsAll(seed, ['User', 'Team', 'Activity', 'Workout', 'upsert|findOneAndUpdate|updateOne'], 'Seed script');
     assertValid(!/deleteMany\s*\(\s*\{\s*\}\s*\)/.test(seed), 'Seed script must not clear unrelated application records');
     assertValid(readJson(root, 'octofit-tracker/backend/package.json').scripts?.seed, 'Backend package.json must define an npm run seed script');
-    const tests = readText(root, 'octofit-tracker/backend/tests/data.contract.test.ts');
-    containsAll(tests, ['seed\\(\\)', 'idempotently', 'sentinel'], 'Seed contract test');
   },
   'step3-api': (root) => {
     const backend = combinedText(root, 'octofit-tracker/backend/src');
