@@ -91,3 +91,7 @@ Total informado: **23 testes falhando e 1 passando**. Cada teste interrompe na p
 ### Resultado da implementação da camada de lógica
 
 Os quatro testes de contrato da API, a validação da etapa 3 e a compilação TypeScript do backend passaram. Os testes de contrato não foram alterados.
+
+### Telas da camada de apresentação
+
+As quatro telas usam o cliente compartilhado e exibem carregamento, lista vazia e alerta de erro em português do Brasil. Atividades mostra o tipo traduzido, a duração e os pontos; Equipes mostra nome, mascote e quantidade de integrantes; Placar mostra posição e pontuação na ordem da API; Sugestões de treino consulta a pessoa de demonstração `mona@example.com` e mostra o título e o motivo de cada recomendação.
